@@ -183,12 +183,14 @@ class MockBookmarkRepositoryImpl implements BookmarkRepository {
     return bookmarkList;
   }
 
-  // @override
-  // void addRecipe(Recipe recipe) {
-  //   if (!bookmarkList.contains(recipe)) {
-  //     bookmarkList.add(recipe);
-  //   }
-  // }
+  @override
+  void addRecipe(Recipe recipe) {
+    bookmarkList ??= getSavedRecipes();
+
+    if (!bookmarkList!.contains(recipe)) {
+      bookmarkList!.add(recipe);
+    }
+  }
 
   @override
   void deleteRecipe(int id) {

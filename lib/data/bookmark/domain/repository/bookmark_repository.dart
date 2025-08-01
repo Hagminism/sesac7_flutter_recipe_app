@@ -5,7 +5,7 @@ abstract interface class BookmarkRepository {
 
   List<Recipe>? getSavedRecipes();
 
-  // void addRecipe(Recipe recipe);
+  void addRecipe(Recipe recipe);
 
   void deleteRecipe(int id);
 }
