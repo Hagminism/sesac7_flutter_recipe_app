@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_recipe_app/core/routing/routes.dart';
 import 'package:flutter_recipe_app/features/splash/presentation/screen/splash_screen_root.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../di/di_setup.dart';
-import '../../features/home/presentation/screen/home_screen.dart';
+import '../../features/home/presentation/screen/home_screen_root.dart';
 import '../../features/home/presentation/screen/home_screen_view_model.dart';
 import '../../features/search_recipes/presentation/screen/search_recipes_screen_root.dart';
 import '../../features/search_recipes/presentation/screen/search_recipes_screen_view_model.dart';
@@ -85,16 +84,8 @@ final router = GoRouter(
             GoRoute(
               path: Routes.main,
               builder: (context, state) {
-                final viewModel = getIt<HomeScreenViewModel>();
-                viewModel.fetchRecipes();
-
-                return ListenableBuilder(
-                  listenable: viewModel,
-                  builder: (BuildContext context, Widget? child) {
-                    return HomeScreen(
-                      viewModel: viewModel,
-                    );
-                  },
+                return HomeScreenRoot(
+                  viewModel: getIt<HomeScreenViewModel>()..fetchRecipes(),
                 );
               },
             ),
