@@ -12,6 +12,7 @@ abstract class HomeScreenState with _$HomeScreenState {
     @Default(false) bool isLoading,
     @Default([]) List<Recipe> recipes,
     @Default([]) List<Recipe> filteredRecipes,
+    @Default([]) List<int> bookmarkedRecipeIds,
   }) = _HomeScreenState;
 
   factory HomeScreenState.fromJson(Map<String, Object?> json) =>

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_recipe_app/features/home/presentation/component/new_recipe_card.dart';
+import 'package:flutter_recipe_app/features/home/presentation/screen/home_screen_state.dart';
 
 import '../../../../ui/app_colors.dart';
 import '../../../../ui/text_styles.dart';
@@ -7,23 +8,23 @@ import '../../../search_recipes/presentation/component/filter_button.dart';
 import '../../../search_recipes/presentation/component/search_input_field.dart';
 import '../component/dish_card.dart';
 import '../component/recipe_category_selector.dart';
-import 'home_screen_view_model.dart';
+import 'home_action.dart';
 
 class HomeScreen extends StatelessWidget {
   final String greeting = 'Hello Jega';
   final String title = 'What are you cooking today?';
 
-  final HomeScreenViewModel viewModel;
+  final HomeScreenState state;
+  final void Function(HomeAction action) onAction;
 
   const HomeScreen({
     super.key,
-    required this.viewModel,
+    required this.state,
+    required this.onAction,
   });
 
   @override
   Widget build(BuildContext context) {
-    final state = viewModel.state;
-
     return Scaffold(
       backgroundColor: AppColors.white,
       body: SingleChildScrollView(
@@ -91,8 +92,7 @@ class HomeScreen extends StatelessWidget {
                 child: RecipeCategorySelector(
                   category: state.selectedCategory,
                   onSelectCategory: (category) {
-                    viewModel.changeCategory(category);
-                    viewModel.filterRecipes(category);
+                    onAction(HomeAction.selectCategory(category));
                   },
                 ),
               ),
@@ -110,6 +110,24 @@ class HomeScreen extends StatelessWidget {
                         margin: EdgeInsets.only(right: 9),
                         child: DishCard(
                           recipe: state.filteredRecipes[index],
+                          isBookmarked: state.bookmarkedRecipeIds.contains(
+                            state.filteredRecipes[index].id,
+                          ),
+                          onBookmarkButtonClicked: (isBookmarked) {
+                            if (isBookmarked) {
+                              onAction(
+                                HomeAction.addBookmark(
+                                  state.filteredRecipes[index],
+                                ),
+                              );
+                            } else {
+                              onAction(
+                                HomeAction.deleteBookmark(
+                                  state.filteredRecipes[index].id,
+                                ),
+                              );
+                            }
+                          },
                         ),
                       );
                     }),

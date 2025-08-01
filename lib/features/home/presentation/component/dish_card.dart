@@ -7,10 +7,14 @@ import '../../../../ui/text_styles.dart';
 
 class DishCard extends StatelessWidget {
   final Recipe recipe;
+  final bool isBookmarked;
+  final void Function(bool isBookmarked) onBookmarkButtonClicked;
 
   const DishCard({
     super.key,
     required this.recipe,
+    required this.isBookmarked,
+    required this.onBookmarkButtonClicked,
   });
 
   @override
@@ -76,10 +80,19 @@ class DishCard extends StatelessWidget {
                           color: AppColors.white,
                           shape: BoxShape.circle,
                         ),
-                        child: Icon(
-                          Icons.bookmark_border,
-                          size: 16,
-                          color: AppColors.primary80,
+                        child: GestureDetector(
+                          onTap: () {
+                            onBookmarkButtonClicked(
+                              !isBookmarked,
+                            );
+                          },
+                          child: Icon(
+                            Icons.bookmark_border,
+                            size: 16,
+                            color: isBookmarked
+                                ? AppColors.primary80
+                                : AppColors.gray3,
+                          ),
                         ),
                       ),
                     ],
