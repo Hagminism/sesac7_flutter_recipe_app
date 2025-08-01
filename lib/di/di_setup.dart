@@ -118,7 +118,10 @@ void diSetup() {
     ),
   );
   getIt.registerFactory<HomeScreenViewModel>(
-    () => HomeScreenViewModel(recipeRepository: getIt()),
+    () => HomeScreenViewModel(
+      recipeRepository: getIt(),
+      bookmarkRepository: getIt(),
+    ),
   );
   getIt.registerFactory<SplashScreenViewModel>(
     () => SplashScreenViewModel(fetchSystemSettingsUseCase: getIt()),
